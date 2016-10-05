@@ -5,11 +5,15 @@
 
   reposObj.requestRepos = function(callback) {
     // TODO: refactor this request into an $.ajax call
-    $.get('/github/users/codefellows-portland-301d6/repos' +
-          '?per_page=10&sort=updated')
-          .done(function(data) {
-            reposObj.allRepos = data;
-          }).done(callback);
+    $.ajax({
+      url: '/github/users/codefellows-portland-301d6/repos' +
+           '?per_page=10&sort=updated',
+      headers: {Authorization: 'token ' + GITHUB_TOKEN},
+      success: function(data) {
+        reposObj.allRepos = data;
+        callback();
+      }
+    });
   };
 
   reposObj.withTheAttribute = function(attr) {
